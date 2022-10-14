@@ -6,15 +6,17 @@ class MovieTable extends Component {
   state = { movies: getMovies() };
 
   removeFunc = id => {
-    console.log(id);
-    this.setState({movies: deleteMovie(id)});
-  }
+    deleteMovie(id);
+    this.setState({movies: getMovies()});
+
+  };
 
   render() {
     return (
-      <main className="container">
+      <React.Fragment>
         {this.state.movies.length !== 0 && <h3>Showing {this.state.movies.length} movies in the database</h3>}
         {this.state.movies.length === 0 && <h3>There are no movies in the database</h3>}
+        {this.state.movies && this.state.movies.length > 0 &&
         <table className="table">
           <thead className="thead-dark">
             <tr>
@@ -25,22 +27,28 @@ class MovieTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.length !== 0 && this.state.movies.map(({_id,title, genre, numberInStock, dailyRentalRate}) => {
+            {this.state.movies.map(({_id,title, genre, numberInStock, dailyRentalRate}) => {
               return (
                 <tr key={_id}>
-                  <td key={title}>{title}</td>
-                  <td key={genre}>{genre.name}</td>
-                  <td key={numberInStock}>{numberInStock}</td>
-                  <td key={dailyRentalRate}>{dailyRentalRate}</td>
-                  <td><button onClick={() => this.removeFunc({id:_id})} className="btn btn-danger btn small">Remove</button></td>
+                  <td className="w-25" key={title}>{title}</td>
+                  <td className="w-25" key={genre}>{genre.name}</td>
+                  <td className="w-25" key={numberInStock}>{numberInStock}</td>
+                  <td className="w-25" key={dailyRentalRate}>{dailyRentalRate}</td>
+                  <td className="w-25">
+                    <button 
+                      onClick={() => this.removeFunc(_id)} 
+                      className="btn btn-danger btn small">Remove
+                      </button>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </main>
+        }
+      </React.Fragment>
     );
-  }
+  };
 }
 
 export default MovieTable;
