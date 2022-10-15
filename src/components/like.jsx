@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 
-const Like = () => {
+function Like(props) {
   let classes = "fa fa-heart";
-  if (!this.props.liked) {
+  if (!props.liked) {
     classes += "-o";
   }
   return (
@@ -10,10 +10,10 @@ const Like = () => {
       <i
         className={classes}
         aria-hidden="true"
-        onClick={this.props.onLikeToggle}
+        onClick={props.onLikeToggle}
       ></i>
     </button>
   );
-};
+}
 
 export default Like;
