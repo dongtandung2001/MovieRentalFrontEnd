@@ -5,7 +5,6 @@ import MovieTable from './components/movies';
 function App() {
   return (
     <main className='container'>
-
       <MovieTable />
     </main>
   );
