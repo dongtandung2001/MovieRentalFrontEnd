@@ -7,7 +7,7 @@ import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./movieTable";
 import _ from "lodash";
-class Movie extends Component {
+class Movies extends Component {
   state = {
     movies: [],
     genres: [],
@@ -23,6 +23,7 @@ class Movie extends Component {
       genres,
       selectedGenre: genres[0].name,
     });
+    console.log("didMOuntCalled", genres[0]);
   }
 
   handleDelete = (id) => {
@@ -43,7 +44,8 @@ class Movie extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    console.log("handleGenre called", genre);
+    this.setState({ selectedGenre: genre.name, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -79,6 +81,7 @@ class Movie extends Component {
       this.state.currentPage,
       this.state.pageSize
     );
+    console.log("render called");
     return (
       <div className="row">
         <div className="col-2">
@@ -111,4 +114,4 @@ class Movie extends Component {
   }
 }
 
-export default Movie;
+export default Movies;
