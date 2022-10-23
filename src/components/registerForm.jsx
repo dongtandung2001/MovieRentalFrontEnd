@@ -1,14 +1,19 @@
-import React from "react";
-import Input from "./common/input";
+import React, { Component } from "react";
 import Joi from "joi";
 import Form from "./common/form";
 
-class LoginForm extends Form {
-  state = { data: { username: "", password: "" }, errors: {} };
+class ReigsterForm extends Form {
+  state = { data: { username: "", password: "", name: "" }, errors: {} };
 
   schema = Joi.object({
-    username: Joi.string().min(5).max(50).required().label("Username"),
+    username: Joi.string()
+      .email({ tlds: { allow: false } })
+      .min(5)
+      .max(50)
+      .required()
+      .label("Username"),
     password: Joi.string().min(5).max(255).required().label("Password"),
+    name: Joi.string().min(5).max(255).required().label("Name"),
   });
 
   doSubmit = () => {
@@ -23,6 +28,7 @@ class LoginForm extends Form {
         <form onSubmit={this.handleSumbit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Name")}
 
           {this.renderButton("Login")}
         </form>
@@ -31,4 +37,4 @@ class LoginForm extends Form {
   }
 }
 
-export default LoginForm;
+export default ReigsterForm;
