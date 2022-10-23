@@ -21,7 +21,7 @@ class Movies extends Component {
     this.setState({
       movies: getMovies(),
       genres,
-      selectedGenre: genres[0].name,
+      selectedGenre: genres[0],
     });
     console.log("didMOuntCalled", genres[0]);
   }
@@ -44,8 +44,7 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    console.log("handleGenre called", genre);
-    this.setState({ selectedGenre: genre.name, currentPage: 1 });
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -65,6 +64,7 @@ class Movies extends Component {
     }
 
     // filter before paginating
+    console.log("select", this.state.selectedGenre);
     const filtered =
       this.state.selectedGenre && this.state.selectedGenre._id
         ? this.state.movies.filter(

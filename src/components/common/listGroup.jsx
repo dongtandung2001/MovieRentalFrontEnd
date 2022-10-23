@@ -9,9 +9,7 @@ function ListGroup(props) {
         <li
           key={item[valueProperty]}
           className={
-            item.name === selectedItem
-              ? "list-group-item active"
-              : "list-group-item"
+            item === selectedItem ? "list-group-item active" : "list-group-item"
           }
           onClick={() => onItemSelect(item)}
           role="button"
