@@ -24,13 +24,13 @@ class ReigsterForm extends Form {
   render() {
     return (
       <div>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form onSubmit={this.handleSumbit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
 
-          {this.renderButton("Login")}
+          {this.renderButton("Register")}
         </form>
       </div>
     );

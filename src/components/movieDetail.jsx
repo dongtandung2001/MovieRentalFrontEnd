@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import MovieForm from "./movieForm";
 
 function MovieDetail() {
   const navigate = useNavigate();
 
   let { id } = useParams();
-  console.log(id);
+  // console.log(id);
   return (
     <div>
-      <h1>Movie Form {id}</h1>
-      <button
-        className="btn btn-sm btn-primary"
-        onClick={() => navigate("/movies", { replace: true })}
-      >
-        Save
-      </button>
+      <MovieForm id={id} navigate={navigate} />
     </div>
   );
 }

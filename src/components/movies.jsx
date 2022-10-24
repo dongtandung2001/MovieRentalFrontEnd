@@ -6,6 +6,8 @@ import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./movieTable";
+
+import { Link } from "react-router-dom";
 import _ from "lodash";
 class Movies extends Component {
   state = {
@@ -23,7 +25,6 @@ class Movies extends Component {
       genres,
       selectedGenre: genres[0],
     });
-    console.log("didMOuntCalled", genres[0]);
   }
 
   handleDelete = (id) => {
@@ -64,7 +65,6 @@ class Movies extends Component {
     }
 
     // filter before paginating
-    console.log("select", this.state.selectedGenre);
     const filtered =
       this.state.selectedGenre && this.state.selectedGenre._id
         ? this.state.movies.filter(
@@ -81,7 +81,6 @@ class Movies extends Component {
       this.state.currentPage,
       this.state.pageSize
     );
-    console.log("render called");
     return (
       <div className="row">
         <div className="col-2">
@@ -94,6 +93,9 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link className="nav nav-link" to="/movies/new">
+            <button className="btn btn-sm btn-primary">New Movies</button>
+          </Link>
           <h3>Showing {filtered.length} movies in the database</h3>
           <MoviesTable
             movies={movies}
