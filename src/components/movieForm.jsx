@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Joi from "joi";
 import Form from "./common/form";
 import { getGenres } from "../services/fakeGenreService";
 import { getMovie } from "../services/fakeMovieService";
-import { Navigate } from "react-router-dom";
-import { useEffect } from "react";
 import { saveMovie } from "./../services/fakeMovieService";
 
 class MovieForm extends Form {
@@ -60,8 +58,9 @@ class MovieForm extends Form {
 
   doSubmit = () => {
     // call backend service
-    console.log("Submitted");
     saveMovie(this.state.data);
+    // navigate back to the homepage
+    this.props.navigate("/movies", { replace: true });
   };
 
   render() {

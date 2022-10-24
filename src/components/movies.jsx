@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { deleteMovie } from "../services/fakeMovieService";
+import { Link } from "react-router-dom";
 import getMovies from "../services/fakeMovieService";
+import { deleteMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
+import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./movieTable";
+import SearchBar from "./search";
 
-import { Link } from "react-router-dom";
 import _ from "lodash";
 class Movies extends Component {
   state = {
@@ -15,6 +16,8 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: "",
+    selectedGenre: null,
     sortColumn: { path: "title", order: "asc" },
   };
 
@@ -45,11 +48,15 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   render() {
@@ -65,12 +72,21 @@ class Movies extends Component {
     }
 
     // filter before paginating
-    const filtered =
-      this.state.selectedGenre && this.state.selectedGenre._id
-        ? this.state.movies.filter(
-            (m) => m.genre._id === this.state.selectedGenre._id
-          )
-        : this.state.movies;
+    let filtered = this.state.movies;
+
+    if (this.state.searchQuery) {
+      filtered = filtered.filter((m) =>
+        m.title.toLowerCase().startsWith(this.state.searchQuery.toLowerCase())
+      );
+    } else {
+      filtered =
+        this.state.selectedGenre && this.state.selectedGenre._id
+          ? this.state.movies.filter(
+              (m) => m.genre._id === this.state.selectedGenre._id
+            )
+          : this.state.movies;
+    }
+
     const sorted = _.orderBy(
       filtered,
       [this.state.sortColumn.path],
@@ -96,7 +112,11 @@ class Movies extends Component {
           <Link className="nav nav-link" to="/movies/new">
             <button className="btn btn-sm btn-primary">New Movies</button>
           </Link>
-          <h3>Showing {filtered.length} movies in the database</h3>
+          <p>Showing {filtered.length} movies in the database</p>
+          <SearchBar
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+          />
           <MoviesTable
             movies={movies}
             sortColumn={this.state.sortColumn}
