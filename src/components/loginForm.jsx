@@ -1,6 +1,8 @@
 import React from "react";
 import Joi from "joi";
 import Form from "./common/form";
+import { login } from "../services/authService";
+import { withRouter } from "../utils/withRouter";
 
 class LoginForm extends Form {
   state = { data: { username: "", password: "" }, errors: {} };
@@ -10,9 +12,23 @@ class LoginForm extends Form {
     password: Joi.string().min(5).max(255).required().label("Password"),
   });
 
-  doSubmit = () => {
+  doSubmit = async () => {
     // call backend service
-    console.log("Submitted");
+    try {
+      const { data } = this.state;
+      const { data: jwt } = await login(data.username, data.password);
+      console.log(jwt);
+      localStorage.setItem("token", jwt);
+      window.location = "/";
+    } catch (ex) {
+      console.log(ex);
+      if (ex.response && ex.response.status === 400) {
+        console.log("here");
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
@@ -30,4 +46,4 @@ class LoginForm extends Form {
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

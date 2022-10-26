@@ -1,6 +1,8 @@
 import React from "react";
 import Joi from "joi";
 import Form from "./common/form";
+import * as userService from "../services/userService";
+import { withRouter } from "../utils/withRouter";
 
 class ReigsterForm extends Form {
   state = { data: { username: "", password: "", name: "" }, errors: {} };
@@ -16,9 +18,19 @@ class ReigsterForm extends Form {
     name: Joi.string().min(5).max(255).required().label("Name"),
   });
 
-  doSubmit = () => {
+  doSubmit = async () => {
     // call backend service
-    console.log("Submitted");
+    try {
+      const response = await userService.register(this.state.data);
+      localStorage.setItem("token", response.headers["x-auth-token"]);
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
@@ -37,4 +49,4 @@ class ReigsterForm extends Form {
   }
 }
 
-export default ReigsterForm;
+export default withRouter(ReigsterForm);
