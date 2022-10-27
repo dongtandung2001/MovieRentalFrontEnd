@@ -2,6 +2,7 @@ import React from "react";
 import Joi from "joi";
 import Form from "./common/form";
 import * as userService from "../services/userService";
+import auth from "../services/authService";
 import { withRouter } from "../utils/withRouter";
 
 class ReigsterForm extends Form {
@@ -22,7 +23,7 @@ class ReigsterForm extends Form {
     // call backend service
     try {
       const response = await userService.register(this.state.data);
-      localStorage.setItem("token", response.headers["x-auth-token"]);
+      auth.jwtLogin(response.headers["x-auth-token"]);
       window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
