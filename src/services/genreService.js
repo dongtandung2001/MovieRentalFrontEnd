@@ -1,5 +1,5 @@
-import httpService from "./httpService"
-import config from '../config.json'
+import httpService from "./httpService";
+import config from "../config.json";
 export function getGenres() {
-    return httpService.get(config.apiUrl + "/genres");
+  return httpService.get(config.apiUrl + "/genres");
 }

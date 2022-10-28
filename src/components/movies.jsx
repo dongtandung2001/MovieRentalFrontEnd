@@ -76,6 +76,9 @@ class Movies extends Component {
   };
 
   render() {
+    // Dynamically show compenent based on user's information
+    // Get user from the props
+    const { user } = this.props;
     // Do not display table if there arent any movies in the database
     if (this.state.movies.length === 0)
       return <p>There are no movies in the database</p>;
@@ -114,8 +117,8 @@ class Movies extends Component {
       this.state.pageSize
     );
     return (
-      <div className="row">
-        <div className="col-2">
+      <div className='row'>
+        <div className='col-2'>
           <ListGroup
             items={this.state.genres}
             onItemSelect={this.handleGenreSelect}
@@ -124,10 +127,14 @@ class Movies extends Component {
             // valueProperty="_id"
           />
         </div>
-        <div className="col">
-          <Link className="nav nav-link" to="/movies/new">
-            <button className="btn btn-sm btn-primary">New Movies</button>
-          </Link>
+        <div className='col'>
+          {user && (
+            <React.Fragment>
+              <Link className='nav nav-link' to='/movies/new'>
+                <button className='btn btn-sm btn-primary'>New Movies</button>
+              </Link>
+            </React.Fragment>
+          )}
           <p>Showing {filtered.length} movies in the database</p>
           <SearchBar
             value={this.state.searchQuery}

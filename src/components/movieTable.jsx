@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import auth from "../services/authService";
 import Like from "./common/like";
 import Table from "./common/table";
-import { Link } from "react-router-dom";
 
 class MoviesTable extends Component {
   columns = [
@@ -9,7 +10,7 @@ class MoviesTable extends Component {
       path: "title",
       label: "Title",
       content: (movie) => (
-        <Link className="nav nav-link" to={`/movies/${movie._id}`}>
+        <Link className='nav nav-link' to={`/movies/${movie._id}`}>
           {movie.title}
         </Link>
       ),
@@ -26,20 +27,30 @@ class MoviesTable extends Component {
         />
       ),
     },
-    {
-      key: "Delete",
-      content: (movie) => (
-        <button
-          onClick={() => this.props.onDelete(movie)}
-          className="btn btn-danger btn small"
-        >
-          Remove
-        </button>
-      ),
-    },
   ];
 
-  state = {};
+  deleteColumn = {
+    key: "Delete",
+    content: (movie) => (
+      <button
+        onClick={() => this.props.onDelete(movie)}
+        className='btn btn-danger btn small'
+      >
+        Remove
+      </button>
+    ),
+  };
+
+  // Dynamically show a column
+  constructor() {
+    super();
+    const user = auth.getCurrentUser();
+    // Only admin can see the delete button
+    if (user && user.isAdmin) {
+      this.columns.push(this.deleteColumn);
+    }
+  }
+
   render() {
     const { movies, onSort, sortColumn } = this.props;
     return (

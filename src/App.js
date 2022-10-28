@@ -12,6 +12,7 @@ import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import LogOut from "./components/logout";
 import auth from "./services/authService";
+import PrivateRoutes from "./components/common/protectedRoutes";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -27,16 +28,18 @@ class App extends Component {
         <NavBar user={this.state.user} />
         <ToastContainer />
         <Routes>
-          <Route path='/movies/:id' element={<MovieDetail />} />
-          <Route path='/movies' element={<Movies />} />
+          <Route element={<PrivateRoutes />}>
+            <Route element={<MovieDetail />} path='/movies/:id' />
+          </Route>
+          <Route path='/movies' element={<Movies user={this.state.user} />} />
           <Route path='/login' element={<LoginForm />} />
           <Route path='/logout' element={<LogOut />} />
           <Route path='/register' element={<RegisterForm />} />
           <Route path='/customers' element={<Customers />} />
           <Route path='/rentals' element={<Rentals />} />
           <Route path='/not-found' element={<NotFound />} />
-          <Route path='*' element={<Navigate to={"not-found"} />} />
           <Route path='/' element={<Navigate to={"/movies"} />} />
+          <Route path='*' element={<Navigate to={"not-found"} />} />
         </Routes>
       </main>
     );

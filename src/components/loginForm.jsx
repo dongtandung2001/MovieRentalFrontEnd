@@ -3,6 +3,7 @@ import Joi from "joi";
 import Form from "./common/form";
 import auth from "../services/authService";
 import { withRouter } from "../utils/withRouter";
+import { Navigate } from "react-router-dom";
 
 class LoginForm extends Form {
   state = { data: { username: "", password: "" }, errors: {} };
@@ -17,7 +18,9 @@ class LoginForm extends Form {
     try {
       const { data } = this.state;
       await auth.login(data.username, data.password);
-      window.location = "/";
+      // get previous path before loggin, using location
+      const location = this.props.location;
+      window.location = location.state ? location.state.from : "/";
     } catch (ex) {
       console.log(ex);
       if (ex.response && ex.response.status === 400) {
@@ -30,6 +33,8 @@ class LoginForm extends Form {
   };
 
   render() {
+    // navigate to HomePage if the user is already login
+    if (auth.getCurrentUser()) return <Navigate to={"/"} />;
     return (
       <div>
         <h1>Login</h1>
