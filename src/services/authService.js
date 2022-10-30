@@ -1,8 +1,8 @@
 import httpService from "./httpService";
-import config from "../config.json";
+
 import jwtDecode from "jwt-decode";
 
-const apiEndPoint = config.apiUrl + "/auth";
+const apiEndPoint = "/auth";
 const tokenKey = "token";
 httpService.setJwt(getJwt());
 
@@ -36,10 +36,12 @@ export function getJwt() {
   return localStorage.getItem(tokenKey);
 }
 
-export default {
+const auth = {
   login,
   jwtLogin,
   logout,
   getCurrentUser,
   getJwt,
 };
+
+export default auth;

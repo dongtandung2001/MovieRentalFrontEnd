@@ -1,6 +1,6 @@
 import httpService from "./httpService";
-import config from "../config.json";
-const apiEndPoint = config.apiUrl + "/movies";
+
+const apiEndPoint = "/movies";
 
 export function getMovies() {
   return httpService.get(apiEndPoint);

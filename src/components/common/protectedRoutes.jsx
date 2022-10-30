@@ -1,6 +1,5 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import auth from "../../services/authService";
-import withRouter from "../loginForm";
 
 const PrivateRoutes = (props) => {
   const user = auth.getCurrentUser();

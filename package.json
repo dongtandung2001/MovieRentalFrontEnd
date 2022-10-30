@@ -27,7 +27,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://movierental-env.eba-ethkjfam.us-west-1.elasticbeanstalk.com/",
   "eslintConfig": {
     "extends": [
       "react-app",
