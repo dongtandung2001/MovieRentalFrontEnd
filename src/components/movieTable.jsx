@@ -9,11 +9,6 @@ class MoviesTable extends Component {
     {
       path: "title",
       label: "Title",
-      content: (movie) => (
-        <Link className='nav nav-link' to={`/movies/${movie._id}`}>
-          {movie.title}
-        </Link>
-      ),
     },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
@@ -34,7 +29,7 @@ class MoviesTable extends Component {
     content: (movie) => (
       <button
         onClick={() => this.props.onDelete(movie)}
-        className='btn btn-danger btn small'
+        className="btn btn-danger btn small"
       >
         Remove
       </button>
@@ -48,6 +43,11 @@ class MoviesTable extends Component {
     // Only admin can see the delete button
     if (user && user.isAdmin) {
       this.columns.push(this.deleteColumn);
+      this.columns.filter((c) => c.path === "title")[0].content = (movie) => (
+        <Link className="nav nav-link" to={`/movies/${movie._id}`}>
+          {movie.title}
+        </Link>
+      );
     }
   }
 

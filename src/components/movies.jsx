@@ -117,8 +117,8 @@ class Movies extends Component {
       this.state.pageSize
     );
     return (
-      <div className='row'>
-        <div className='col-2'>
+      <div className="row">
+        <div className="col-2">
           <ListGroup
             items={this.state.genres}
             onItemSelect={this.handleGenreSelect}
@@ -127,11 +127,11 @@ class Movies extends Component {
             // valueProperty="_id"
           />
         </div>
-        <div className='col'>
-          {user && (
+        <div className="col">
+          {user && user.isAdmin && (
             <React.Fragment>
-              <Link className='nav nav-link' to='/movies/new'>
-                <button className='btn btn-sm btn-primary'>New Movies</button>
+              <Link className="nav nav-link" to="/movies/new">
+                <button className="btn btn-sm btn-primary">New Movies</button>
               </Link>
             </React.Fragment>
           )}
