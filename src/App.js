@@ -11,6 +11,7 @@ import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import LogOut from "./components/logout";
+import User from "./components/user";
 import auth from "./services/authService";
 import PrivateRoutes from "./components/common/protectedRoutes";
 
@@ -37,6 +38,7 @@ class App extends Component {
           <Route path='/register' element={<RegisterForm />} />
           <Route path='/customers' element={<Customers />} />
           <Route path='/rentals' element={<Rentals />} />
+          <Route path='/user' element={<User />} />
           <Route path='/not-found' element={<NotFound />} />
           <Route path='/' element={<Navigate to={"/movies"} />} />
           <Route path='*' element={<Navigate to={"not-found"} />} />
