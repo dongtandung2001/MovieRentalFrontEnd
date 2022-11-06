@@ -7,9 +7,13 @@ import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./movieTable";
 import SearchBar from "./search";
+import * as customerService from "../services/customerService";
+import * as auth from "../services/authService";
+import * as rentService from "../services/rentingService";
 
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { withRouter } from "../utils/withRouter";
 class Movies extends Component {
   state = {
     movies: [],
@@ -75,8 +79,25 @@ class Movies extends Component {
     this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
-  handleRent = (movie) => {
+  handleRent = async (movie) => {
+    // Redirect if user has not login
+    const user = auth.getCurrentUser();
+    if (!user) {
+      return this.props.navigate("/login", { replace: true });
+    }
+
+    // get customer information for making a rental
+    const { data: customer } = await customerService.getCustomer(user.customer);
     console.log("Rent", movie);
+    console.log("Rent", customer);
+    try {
+      const response = await rentService.rent(movie, customer);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        toast.error(ex.response.data);
+      }
+    }
+    window.location = "/";
   };
 
   render() {
@@ -164,4 +185,4 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+export default withRouter(Movies);
