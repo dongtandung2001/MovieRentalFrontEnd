@@ -6,7 +6,7 @@ import auth from "../services/authService";
 import { withRouter } from "../utils/withRouter";
 
 class ReigsterForm extends Form {
-  state = { data: { username: "", password: "", name: "" }, errors: {} };
+  state = { data: { username: "", password: "" }, errors: {} };
 
   schema = Joi.object({
     username: Joi.string()
@@ -16,7 +16,6 @@ class ReigsterForm extends Form {
       .required()
       .label("Username"),
     password: Joi.string().min(5).max(255).required().label("Password"),
-    name: Joi.string().min(5).max(255).required().label("Name"),
   });
 
   doSubmit = async () => {
@@ -24,7 +23,7 @@ class ReigsterForm extends Form {
     try {
       const response = await userService.register(this.state.data);
       auth.jwtLogin(response.headers["x-auth-token"]);
-      window.location = "/";
+      window.location = "/profile";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -41,7 +40,6 @@ class ReigsterForm extends Form {
         <form onSubmit={this.handleSumbit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
 
           {this.renderButton("Register")}
         </form>

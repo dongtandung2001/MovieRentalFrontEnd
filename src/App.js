@@ -13,6 +13,7 @@ import RegisterForm from "./components/registerForm";
 import LogOut from "./components/logout";
 import User from "./components/user";
 import auth from "./services/authService";
+import ProfileForm from './components/profileForm';
 import PrivateRoutes from "./components/common/protectedRoutes";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -31,6 +32,8 @@ class App extends Component {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route element={<MovieDetail />} path='/movies/:id' />
+            <Route element={<ProfileForm />} path='/profile' />
+
           </Route>
           <Route path='/movies' element={<Movies user={this.state.user} />} />
           <Route path='/login' element={<LoginForm />} />

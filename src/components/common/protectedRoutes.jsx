@@ -4,7 +4,6 @@ import auth from "../../services/authService";
 const PrivateRoutes = (props) => {
   const user = auth.getCurrentUser();
   const location = useLocation();
-  console.log("location", location);
   return user ? (
     <Outlet />
   ) : (
