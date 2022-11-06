@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const apiEndPoint = "/customers";
 
-export async function createCustomer(customer) {
+export async function save(customer) {
     if (!customer._id) {
 
         const { data } = await httpService.post(apiEndPoint, {
@@ -12,10 +12,11 @@ export async function createCustomer(customer) {
             phone: customer.phone,
             SSN: customer.SSN,
         })
-        return await setCustomer(data);
+        await setCustomer(data);
+        return 'created';
+
 
     } else {
-
         return await httpService.put(apiEndPoint + `/${customer._id}`, _.pick(customer, ['name', 'SSN', 'phone']))
     }
 

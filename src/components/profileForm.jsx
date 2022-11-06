@@ -35,8 +35,13 @@ class ProfileForm extends Form {
   }
 
   doSubmit = async () => {
-    const { data } = await customerService.createCustomer(this.state.data);
-    window.location = "/";
+    const response = await customerService.save(this.state.data);
+    if (response === "created") {
+      auth.logout();
+      this.props.navigate("/login", { replace: true });
+    } else {
+      window.location = "/user";
+    }
   };
   render() {
     return (

@@ -88,16 +88,15 @@ class Movies extends Component {
 
     // get customer information for making a rental
     const { data: customer } = await customerService.getCustomer(user.customer);
-    console.log("Rent", movie);
-    console.log("Rent", customer);
+
     try {
-      const response = await rentService.rent(movie, customer);
+      await rentService.rent(movie, customer);
+      window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.error(ex.response.data);
       }
     }
-    window.location = "/";
   };
 
   render() {
