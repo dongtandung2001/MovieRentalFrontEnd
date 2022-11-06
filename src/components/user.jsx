@@ -21,6 +21,7 @@ class User extends Component {
 
   render() {
     const { user, customer } = this.state;
+    console.log(customer.rents);
     return (
       <div>
         <h1>{customer.name}</h1>
@@ -37,6 +38,13 @@ class User extends Component {
         >
           Edit
         </button>
+        <h1>Rented Movies</h1>
+        <ul>
+          {customer.rents &&
+            customer.rents.map((rent) => (
+              <li key={rent.movie._id}>{rent.movie.title}</li>
+            ))}
+        </ul>
       </div>
     );
   }
